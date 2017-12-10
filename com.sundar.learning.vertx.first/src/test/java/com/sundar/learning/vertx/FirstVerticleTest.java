@@ -1,6 +1,8 @@
 package com.sundar.learning.vertx;
 
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -16,8 +18,11 @@ public class FirstVerticleTest {
 
   @Before
   public void setup(TestContext context) {
+    int port = 8081;
+    DeploymentOptions options = new DeploymentOptions().setConfig(
+      new JsonObject().put("http.port", port));
     vertx = Vertx.vertx();
-    vertx.deployVerticle(FirstVerticle.class.getName(),
+    vertx.deployVerticle(FirstVerticle.class.getName(), options,
       context.asyncAssertSuccess());
   }
 
@@ -29,7 +34,7 @@ public class FirstVerticleTest {
   @Test
   public void testFirstVerticle(TestContext context) {
     final Async async  = context.async();
-    vertx.createHttpClient().getNow(8080, "localhost", "/",
+    vertx.createHttpClient().getNow(8081, "localhost", "/",
       response -> {
       response.handler(body -> {
         context.assertEquals(body.toString(), "Well, I am Verticle");

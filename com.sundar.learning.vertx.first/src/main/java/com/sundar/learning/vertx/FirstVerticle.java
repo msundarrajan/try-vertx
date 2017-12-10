@@ -11,7 +11,7 @@ public class FirstVerticle extends AbstractVerticle {
       .requestHandler(r -> {
         r.response().end("Well, I am Verticle");
       })
-      .listen(8080, result -> {
+      .listen(config().getInteger("http.port", 8080), result -> {
         if (result.succeeded()) {
           startFuture.complete();
         } else {
