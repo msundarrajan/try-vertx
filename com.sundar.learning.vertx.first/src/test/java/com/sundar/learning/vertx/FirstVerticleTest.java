@@ -37,7 +37,7 @@ public class FirstVerticleTest {
     vertx.createHttpClient().getNow(8081, "localhost", "/",
       response -> {
       response.handler(body -> {
-        context.assertEquals(body.toString(), "Well, I am Verticle");
+        context.assertEquals(body.toString(), "Well, I am Web Verticle");
         async.complete();
       });
     });
